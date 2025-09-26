@@ -322,37 +322,6 @@ function App() {
                 {isEditing ? <Save size={16} /> : <Edit size={16} />}
                 <span className="text-xs md:text-sm hidden sm:inline">{isEditing ? 'Sauvegarder' : 'Modifier'}</span>
               </button>
-              <div className="relative group">
-                <button className="px-2 md:px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors flex items-center space-x-1 md:space-x-2 shadow-lg">
-                  <Share2 size={16} />
-                  <span className="text-xs md:text-sm hidden sm:inline">Partager</span>
-                </button>
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="p-2">
-                    <button
-                      onClick={() => handleShare('facebook')}
-                      className="w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-blue-50 rounded-lg transition-colors"
-                    >
-                      <Facebook size={16} className="text-blue-600" />
-                      <span className="text-sm text-gray-700">Facebook</span>
-                    </button>
-                    <button
-                      onClick={() => handleShare('linkedin')}
-                      className="w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-blue-50 rounded-lg transition-colors"
-                    >
-                      <Linkedin size={16} className="text-blue-700" />
-                      <span className="text-sm text-gray-700">LinkedIn</span>
-                    </button>
-                    <button
-                      onClick={() => handleShare('email')}
-                      className="w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-blue-50 rounded-lg transition-colors"
-                    >
-                      <Mail size={16} className="text-gray-600" />
-                      <span className="text-sm text-gray-700">Email</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -704,34 +673,9 @@ function App() {
                 </div>
                 <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-4 md:p-6">
                   <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4">Informations Personnelles</h3>
-                  <div className="mt-6">
-                    <div className="space-y-3">
-                      <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Partager ce CV</h4>
-                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                        <button
-                          onClick={() => handleShare('facebook')}
-                          className="flex-1 bg-blue-600 text-white px-3 md:px-4 py-2 md:py-3 rounded-xl font-medium hover:bg-blue-700 transition-all flex items-center justify-center space-x-2 shadow-lg text-sm md:text-base"
-                        >
-                          <Facebook size={18} />
-                          <span>Facebook</span>
-                        </button>
-                        <button
-                          onClick={() => handleShare('linkedin')}
-                          className="flex-1 bg-blue-700 text-white px-3 md:px-4 py-2 md:py-3 rounded-xl font-medium hover:bg-blue-800 transition-all flex items-center justify-center space-x-2 shadow-lg text-sm md:text-base"
-                        >
-                          <Linkedin size={18} />
-                          <span>LinkedIn</span>
-                        </button>
-                      </div>
-                      <button
-                        onClick={() => handleShare('email')}
-                        className="w-full bg-gray-600 text-white px-3 md:px-4 py-2 md:py-3 rounded-xl font-medium hover:bg-gray-700 transition-all flex items-center justify-center space-x-2 shadow-lg text-sm md:text-base"
-                      >
-                        <Mail size={18} />
-                        <span>Partager par Email</span>
-                      </button>
-                    </div>
-                  </div>
+                  <p className="text-gray-600 text-sm">
+                    Téléchargez ce CV au format PDF pour vos candidatures professionnelles.
+                  </p>
                 </div>
               </div>
             </div>

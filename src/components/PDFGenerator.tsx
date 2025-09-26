@@ -1,7 +1,7 @@
 import React from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Download, FileText } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 interface PDFGeneratorProps {
   personalInfo: {
@@ -48,130 +48,241 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
       pdfElement.id = 'pdf-content';
       pdfElement.style.position = 'absolute';
       pdfElement.style.left = '-9999px';
-      pdfElement.style.width = '210mm'; // A4 width
+      pdfElement.style.width = '210mm';
+      pdfElement.style.minHeight = '297mm';
       pdfElement.style.backgroundColor = 'white';
       pdfElement.style.fontFamily = 'Arial, sans-serif';
+      pdfElement.style.fontSize = '12px';
+      pdfElement.style.lineHeight = '1.4';
+      pdfElement.style.color = '#333';
       
-      // Contenu HTML optimisé pour PDF
+      // Contenu HTML optimisé pour PDF - Style du modèle fourni
       pdfElement.innerHTML = `
-        <div style="padding: 20px; max-width: 210mm; margin: 0 auto; background: white;">
-          <!-- En-tête avec photo et informations principales -->
-          <div style="display: flex; align-items: center; margin-bottom: 25px; padding: 20px; background: linear-gradient(135deg, #2563eb, #059669); border-radius: 12px; color: white;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 3px solid white; margin-right: 25px; flex-shrink: 0;">
-              <img src="/images/Gemini_Generated_Image_dj3qtidj3qtidj3q.png" 
-                   style="width: 100%; height: 100%; object-fit: cover;" 
-                   alt="Photo de profil" />
-            </div>
-            <div style="flex: 1;">
-              <h1 style="margin: 0 0 8px 0; font-size: 28px; font-weight: bold; line-height: 1.2;">${personalInfo.name}</h1>
-              <h2 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 300; opacity: 0.9;">${personalInfo.title}</h2>
-              <p style="margin: 0; font-size: 14px; line-height: 1.4; opacity: 0.9;">${personalInfo.summary}</p>
-            </div>
-          </div>
-
-          <!-- Informations de contact -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; padding: 15px; background: #f8fafc; border-radius: 8px;">
-            <div style="display: flex; align-items: center;">
-              <span style="color: #2563eb; font-weight: bold; margin-right: 8px;">📞</span>
-              <span style="font-size: 13px;">${contactInfo.phone}</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-              <span style="color: #059669; font-weight: bold; margin-right: 8px;">📱</span>
-              <span style="font-size: 13px;">${contactInfo.whatsapp}</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-              <span style="color: #ea580c; font-weight: bold; margin-right: 8px;">✉️</span>
-              <span style="font-size: 13px;">${contactInfo.email}</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-              <span style="color: #7c3aed; font-weight: bold; margin-right: 8px;">📍</span>
-              <span style="font-size: 13px;">${contactInfo.location}</span>
-            </div>
-          </div>
-
-          <!-- Expérience Professionnelle -->
-          <div style="margin-bottom: 25px;">
-            <h3 style="color: #2563eb; font-size: 18px; font-weight: bold; margin: 0 0 15px 0; padding-bottom: 5px; border-bottom: 2px solid #2563eb;">
-              💼 EXPÉRIENCE PROFESSIONNELLE
-            </h3>
-            ${experiences.slice(0, 6).map(exp => `
-              <div style="margin-bottom: 15px; padding: 12px; border-left: 3px solid #059669; background: #f0fdf4;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-                  <h4 style="margin: 0; font-size: 14px; font-weight: bold; color: #1f2937;">${exp.title}</h4>
-                  <span style="background: #fbbf24; color: #92400e; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;">
-                    ${exp.period}
-                  </span>
-                </div>
-                <p style="margin: 0 0 6px 0; color: #2563eb; font-weight: 600; font-size: 13px;">${exp.company}</p>
-                <p style="margin: 0 0 8px 0; color: #4b5563; font-size: 12px; line-height: 1.4;">${exp.description}</p>
-                <ul style="margin: 0; padding-left: 15px; color: #4b5563; font-size: 11px; line-height: 1.3;">
-                  ${exp.tasks.slice(0, 3).map(task => `<li style="margin-bottom: 2px;">${task}</li>`).join('')}
-                </ul>
+        <div style="width: 210mm; min-height: 297mm; margin: 0; padding: 0; background: white; font-family: Arial, sans-serif;">
+          
+          <!-- PAGE 1 -->
+          <div style="width: 100%; min-height: 297mm; padding: 0; margin: 0; page-break-after: always;">
+            
+            <!-- En-tête bleu avec photo et infos principales -->
+            <div style="background: #4472C4; color: white; padding: 25px 30px; margin: 0; display: flex; align-items: center;">
+              <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; border: 4px solid white; margin-right: 30px; flex-shrink: 0;">
+                <img src="/images/Gemini_Generated_Image_dj3qtidj3qtidj3q.png" 
+                     style="width: 100%; height: 100%; object-fit: cover;" 
+                     alt="Photo de profil" />
               </div>
-            `).join('')}
+              <div style="flex: 1;">
+                <h1 style="margin: 0 0 8px 0; font-size: 32px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">${personalInfo.name}</h1>
+                <h2 style="margin: 0 0 15px 0; font-size: 18px; font-weight: normal; opacity: 0.9;">${personalInfo.title}</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; font-size: 14px;">
+                  <span>• ${contactInfo.email}</span>
+                  <span>• ${contactInfo.phone}</span>
+                  <span>• ${contactInfo.location}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contenu principal en 2 colonnes -->
+            <div style="display: flex; padding: 0; margin: 0; min-height: calc(297mm - 180px);">
+              
+              <!-- Colonne gauche - À Propos et Compétences -->
+              <div style="width: 35%; background: #f8f9fa; padding: 25px 20px; border-right: 1px solid #e0e0e0;">
+                
+                <!-- À Propos -->
+                <div style="margin-bottom: 30px;">
+                  <h3 style="color: #4472C4; font-size: 16px; font-weight: bold; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid #4472C4; padding-bottom: 5px;">À Propos</h3>
+                  <p style="margin: 0; font-size: 11px; line-height: 1.5; text-align: justify; color: #333;">${personalInfo.summary}</p>
+                </div>
+
+                <!-- Compétences Techniques -->
+                <div style="margin-bottom: 30px;">
+                  <h3 style="color: #4472C4; font-size: 16px; font-weight: bold; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid #4472C4; padding-bottom: 5px;">Compétences Techniques</h3>
+                  
+                  <div style="margin-bottom: 20px;">
+                    <h4 style="color: #333; font-size: 12px; font-weight: bold; margin: 0 0 8px 0;">Gestion Logistique & Données</h4>
+                    ${skills.slice(0, 4).map(skill => `
+                      <div style="margin-bottom: 3px;">
+                        <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                        <span style="font-size: 10px; color: #333;">${skill}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+
+                  <div style="margin-bottom: 20px;">
+                    <h4 style="color: #333; font-size: 12px; font-weight: bold; margin: 0 0 8px 0;">Outils & Systèmes</h4>
+                    ${skills.slice(4).map(skill => `
+                      <div style="margin-bottom: 3px;">
+                        <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                        <span style="font-size: 10px; color: #333;">${skill}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+
+                <!-- Compétences Comportementales -->
+                <div style="margin-bottom: 30px;">
+                  <h3 style="color: #4472C4; font-size: 16px; font-weight: bold; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid #4472C4; padding-bottom: 5px;">Compétences Comportementales</h3>
+                  
+                  <div style="margin-bottom: 3px;">
+                    <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                    <span style="font-size: 10px; color: #333;">Communication et Leadership</span>
+                  </div>
+                  <div style="margin-bottom: 3px;">
+                    <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                    <span style="font-size: 10px; color: #333;">Capacités rédactionnelles</span>
+                  </div>
+                  <div style="margin-bottom: 3px;">
+                    <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                    <span style="font-size: 10px; color: #333;">Capacité d'analyse et esprit analytique</span>
+                  </div>
+                  <div style="margin-bottom: 3px;">
+                    <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                    <span style="font-size: 10px; color: #333;">Esprit et travail en équipe</span>
+                  </div>
+                  <div style="margin-bottom: 3px;">
+                    <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                    <span style="font-size: 10px; color: #333;">Curiosité intellectuelle</span>
+                  </div>
+                </div>
+
+                <!-- Langues -->
+                <div>
+                  <h3 style="color: #4472C4; font-size: 16px; font-weight: bold; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid #4472C4; padding-bottom: 5px;">Langues</h3>
+                  <div style="margin-bottom: 8px;">
+                    <span style="font-size: 11px; font-weight: bold; color: #333;">Français</span>
+                    <span style="float: right; font-size: 10px; color: #666;">Natif</span>
+                  </div>
+                  <div>
+                    <span style="font-size: 11px; font-weight: bold; color: #333;">Anglais</span>
+                    <span style="float: right; font-size: 10px; color: #666;">Lu/Écrit</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Colonne droite - Expérience -->
+              <div style="width: 65%; padding: 25px 20px;">
+                
+                <!-- Expérience Professionnelle -->
+                <div style="margin-bottom: 30px;">
+                  <h3 style="color: #4472C4; font-size: 18px; font-weight: bold; margin: 0 0 20px 0; text-transform: uppercase; text-align: center; border-bottom: 2px solid #4472C4; padding-bottom: 8px;">Expérience Professionnelle</h3>
+                  
+                  ${experiences.slice(0, 4).map((exp, index) => `
+                    <div style="margin-bottom: 25px; ${index === 0 ? 'border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; background: #f8f9fa;' : ''}">
+                      <div style="margin-bottom: 12px;">
+                        <h4 style="color: #4472C4; font-size: 14px; font-weight: bold; margin: 0 0 4px 0;">${exp.title}</h4>
+                        <p style="color: #666; font-style: italic; font-size: 11px; margin: 0 0 4px 0;">${exp.company} | ${exp.period}</p>
+                      </div>
+                      
+                      ${index === 0 ? `
+                        <p style="margin: 0 0 10px 0; font-size: 11px; line-height: 1.4; color: #333;">${exp.description}</p>
+                        <div style="margin-bottom: 8px;">
+                          <p style="color: #333; font-size: 11px; font-weight: bold; margin: 0 0 5px 0;">Contrôle qualité des données et rapprochements :</p>
+                          ${exp.tasks.slice(0, 4).map(task => `
+                            <div style="margin-bottom: 2px; font-size: 10px; line-height: 1.3;">
+                              <span style="color: #4472C4; margin-right: 5px;">•</span>
+                              <span style="color: #333;">${task}</span>
+                            </div>
+                          `).join('')}
+                        </div>
+                        
+                        <div style="background: #e8f4fd; padding: 8px; border-radius: 5px; margin-top: 10px;">
+                          <p style="color: #4472C4; font-size: 10px; font-weight: bold; margin: 0 0 5px 0;">🏆 Réalisations clés</p>
+                          <div style="font-size: 9px; line-height: 1.3; color: #333;">
+                            <div style="margin-bottom: 2px;">• Formation de 15+ agents sur les nouveaux outils et processus</div>
+                            <div style="margin-bottom: 2px;">• Déploiement de 25+ bornes automatiques</div>
+                            <div>• Automatisation du traitement des fichiers (gain de 50% sur les délais)</div>
+                          </div>
+                        </div>
+                      ` : `
+                        <div style="font-size: 10px; line-height: 1.3;">
+                          ${exp.tasks.slice(0, 3).map(task => `
+                            <div style="margin-bottom: 2px;">
+                              <span style="color: #4472C4; margin-right: 5px;">•</span>
+                              <span style="color: #333;">${task}</span>
+                            </div>
+                          `).join('')}
+                        </div>
+                      `}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Formation et Compétences côte à côte -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-            <!-- Formation -->
-            <div>
-              <h3 style="color: #059669; font-size: 16px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #059669;">
-                🎓 FORMATION
-              </h3>
-              ${education.map(edu => `
-                <div style="margin-bottom: 12px; padding: 10px; background: #f0fdf4; border-radius: 6px;">
-                  <div style="display: flex; justify-content: between; align-items: flex-start; margin-bottom: 4px;">
-                    <h4 style="margin: 0; font-size: 12px; font-weight: bold; color: #1f2937; line-height: 1.3;">${edu.degree}</h4>
+          <!-- PAGE 2 -->
+          <div style="width: 100%; min-height: 297mm; padding: 30px; margin: 0; page-break-before: always;">
+            
+            <!-- Suite Expérience -->
+            <div style="margin-bottom: 35px;">
+              <h3 style="color: #4472C4; font-size: 18px; font-weight: bold; margin: 0 0 20px 0; text-transform: uppercase; text-align: center; border-bottom: 2px solid #4472C4; padding-bottom: 8px;">Expérience Professionnelle (Suite)</h3>
+              
+              ${experiences.slice(4).map(exp => `
+                <div style="margin-bottom: 20px;">
+                  <div style="margin-bottom: 8px;">
+                    <h4 style="color: #4472C4; font-size: 13px; font-weight: bold; margin: 0 0 4px 0;">${exp.title}</h4>
+                    <p style="color: #666; font-style: italic; font-size: 11px; margin: 0 0 4px 0;">${exp.company} | ${exp.period}</p>
                   </div>
-                  <p style="margin: 0 0 4px 0; color: #4b5563; font-size: 11px;">${edu.institution}</p>
-                  <span style="background: #10b981; color: white; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 500;">
-                    ${edu.year}
-                  </span>
+                  <div style="font-size: 10px; line-height: 1.3;">
+                    ${exp.tasks.slice(0, 3).map(task => `
+                      <div style="margin-bottom: 2px;">
+                        <span style="color: #4472C4; margin-right: 5px;">•</span>
+                        <span style="color: #333;">${task}</span>
+                      </div>
+                    `).join('')}
+                  </div>
                 </div>
               `).join('')}
             </div>
 
-            <!-- Compétences -->
-            <div>
-              <h3 style="color: #ea580c; font-size: 16px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #ea580c;">
-                ⭐ COMPÉTENCES
-              </h3>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-                ${skills.map(skill => `
-                  <div style="background: #fff7ed; color: #9a3412; padding: 6px 8px; border-radius: 6px; text-align: center; font-size: 11px; font-weight: 500;">
-                    ${skill}
-                  </div>
-                `).join('')}
+            <!-- Formation -->
+            <div style="margin-bottom: 35px;">
+              <h3 style="color: #4472C4; font-size: 18px; font-weight: bold; margin: 0 0 20px 0; text-transform: uppercase; text-align: center; border-bottom: 2px solid #4472C4; padding-bottom: 8px;">Formation</h3>
+              
+              ${education.map(edu => `
+                <div style="margin-bottom: 15px;">
+                  <h4 style="color: #4472C4; font-size: 13px; font-weight: bold; margin: 0 0 4px 0;">${edu.degree}</h4>
+                  <p style="color: #666; font-size: 11px; margin: 0 0 2px 0;">${edu.institution} | ${edu.year}</p>
+                  <p style="color: #333; font-size: 10px; margin: 0; line-height: 1.3;">Spécialisation en gestion logistique, collecte de données et systèmes d'information</p>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Atouts clés -->
+            <div style="background: #e8f4fd; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+              <h3 style="color: #4472C4; font-size: 16px; font-weight: bold; margin: 0 0 15px 0; text-transform: uppercase; text-align: center;">🏆 Atouts clés</h3>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="font-size: 11px; color: #333;">• Respectueuse et professionnelle</div>
+                <div style="font-size: 11px; color: #333;">• Leadership naturel</div>
+                <div style="font-size: 11px; color: #333;">• Travailleuse et rigoureuse</div>
+                <div style="font-size: 11px; color: #333;">• Esprit d'équipe développé</div>
               </div>
             </div>
-          </div>
 
-          <!-- Atouts -->
-          <div style="margin-bottom: 20px;">
-            <h3 style="color: #7c3aed; font-size: 16px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #7c3aed;">
-              🏆 ATOUTS PROFESSIONNELS
-            </h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-              <div style="background: #faf5ff; color: #6b21a8; padding: 8px 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: 500;">
-                ✨ Respectueuse
-              </div>
-              <div style="background: #faf5ff; color: #6b21a8; padding: 8px 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: 500;">
-                💪 Travailleuse
-              </div>
-              <div style="background: #faf5ff; color: #6b21a8; padding: 8px 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: 500;">
-                👑 Leadership
-              </div>
-              <div style="background: #faf5ff; color: #6b21a8; padding: 8px 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: 500;">
-                🤝 Esprit d'équipe
+            <!-- Centres d'intérêt -->
+            <div style="margin-bottom: 25px;">
+              <h3 style="color: #4472C4; font-size: 16px; font-weight: bold; margin: 0 0 15px 0; text-transform: uppercase; border-bottom: 2px solid #4472C4; padding-bottom: 5px;">Centres d'Intérêt</h3>
+              <div style="display: flex; gap: 20px;">
+                <div style="font-size: 11px; color: #333;">
+                  <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                  Veille technologique et innovation
+                </div>
+                <div style="font-size: 11px; color: #333;">
+                  <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                  Formation continue
+                </div>
+                <div style="font-size: 11px; color: #333;">
+                  <span style="color: #4472C4; margin-right: 5px;">▸</span>
+                  Développement personnel
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Footer -->
-          <div style="text-align: center; padding: 15px; background: #f8fafc; border-radius: 8px; margin-top: 20px;">
-            <p style="margin: 0; color: #6b7280; font-size: 11px;">
-              CV généré le ${new Date().toLocaleDateString('fr-FR')} • ${personalInfo.name} • ${personalInfo.title}
-            </p>
+            <!-- Footer -->
+            <div style="text-align: center; padding: 15px; border-top: 1px solid #e0e0e0; margin-top: 30px;">
+              <p style="margin: 0; color: #666; font-size: 10px;">
+                CV généré le ${new Date().toLocaleDateString('fr-FR')} • ${personalInfo.name} • ${personalInfo.title}
+              </p>
+            </div>
           </div>
         </div>
       `;
@@ -179,39 +290,65 @@ const PDFGenerator: React.FC<PDFGeneratorProps> = ({
       document.body.appendChild(pdfElement);
 
       // Attendre que les images se chargent
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-      // Générer le canvas
+      // Générer le canvas avec une meilleure résolution
       const canvas = await html2canvas(pdfElement, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
-        width: 794, // A4 width in pixels at 96 DPI
-        height: 1123, // A4 height in pixels at 96 DPI
+        width: 794, // A4 width in pixels
+        height: 1123, // A4 height in pixels
+        logging: false,
       });
 
       // Créer le PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/png', 1.0);
       
-      // Calculer les dimensions pour s'adapter à A4
+      // Calculer les dimensions
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      // Si l'image est plus haute qu'une page A4, on la redimensionne
-      if (imgHeight > pdfHeight) {
-        const ratio = pdfHeight / imgHeight;
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth * ratio, pdfHeight);
+      // Si l'image est plus haute que 2 pages A4, on la divise
+      if (imgHeight > pdfHeight * 2) {
+        // Page 1
+        const firstPageHeight = pdfHeight;
+        const firstPageCanvas = document.createElement('canvas');
+        const firstPageCtx = firstPageCanvas.getContext('2d');
+        firstPageCanvas.width = canvas.width;
+        firstPageCanvas.height = (canvas.height / 2);
+        
+        const img = new Image();
+        img.onload = () => {
+          firstPageCtx?.drawImage(img, 0, 0, canvas.width, canvas.height / 2, 0, 0, canvas.width, canvas.height / 2);
+          const firstPageData = firstPageCanvas.toDataURL('image/png', 1.0);
+          pdf.addImage(firstPageData, 'PNG', 0, 0, pdfWidth, firstPageHeight);
+          
+          // Page 2
+          pdf.addPage();
+          const secondPageCanvas = document.createElement('canvas');
+          const secondPageCtx = secondPageCanvas.getContext('2d');
+          secondPageCanvas.width = canvas.width;
+          secondPageCanvas.height = (canvas.height / 2);
+          
+          secondPageCtx?.drawImage(img, 0, canvas.height / 2, canvas.width, canvas.height / 2, 0, 0, canvas.width, canvas.height / 2);
+          const secondPageData = secondPageCanvas.toDataURL('image/png', 1.0);
+          pdf.addImage(secondPageData, 'PNG', 0, 0, pdfWidth, firstPageHeight);
+          
+          // Télécharger
+          const fileName = `CV_${personalInfo.name.replace(/\s+/g, '_')}_${new Date().getFullYear()}.pdf`;
+          pdf.save(fileName);
+        };
+        img.src = imgData;
       } else {
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, Math.min(imgHeight, pdfHeight * 2));
+        const fileName = `CV_${personalInfo.name.replace(/\s+/g, '_')}_${new Date().getFullYear()}.pdf`;
+        pdf.save(fileName);
       }
-
-      // Télécharger le PDF
-      const fileName = `CV_${personalInfo.name.replace(/\s+/g, '_')}_${new Date().getFullYear()}.pdf`;
-      pdf.save(fileName);
 
       // Nettoyer
       document.body.removeChild(pdfElement);
