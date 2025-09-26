@@ -307,6 +307,13 @@ function App() {
               ))}
             </div>
             <div className="flex items-center space-x-1 md:space-x-2">
+              <PDFGenerator
+                personalInfo={personalInfo}
+                contactInfo={contactInfo}
+                experiences={experiences}
+                education={education}
+                skills={skills}
+              />
               <button
                 onClick={handleEditClick}
                 className="px-2 md:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-1 md:space-x-2 shadow-lg"
