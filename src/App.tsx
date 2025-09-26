@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User, Briefcase, GraduationCap, Star, Trophy, Phone, Mail, MapPin, Share2, CreditCard as Edit, Save, ChevronRight, Award, Target, Facebook, Linkedin, Lock, X } from 'lucide-react';
+import PDFGenerator from './components/PDFGenerator';
 
 interface ContactInfo {
   phone: string;
